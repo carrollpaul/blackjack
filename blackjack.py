@@ -40,20 +40,16 @@ def getBet():
     return input('Input bet: ')
 
 def analyzeHand(hand):
-    valueLowAce = 0
-    valueHighAce = 0
+    score = 0
     for card in hand:
         rank = card[0]
         if (rank == 'A'):
-            valueLowAce = valueLowAce + 1
-            valueHighAce = valueHighAce + 21
+            score = score + 11
         if rank == 'K' or rank == 'Q' or rank == 'J':
-            valueLowAce = valueLowAce + 10
-            valueHighAce = valueHighAce +10
+            score = score + 10
         else:
-            valueLowAce = valueLowAce + rank
-            valueHighAce = valueHighAce + rank
-    return valueLowAce, valueHighAce
+            score = score + rank
+    return score
 
 def playHand(player, dealer, deck):
     bet = getBet()
@@ -73,7 +69,7 @@ def playHand(player, dealer, deck):
     
     # Loop for player
     while True:
-        hit = input('Hit? (y/n')
+        hit = input('Hit? (y/n): ')
         if (hit == 'n'):
             playerScore = analyzeHand(player.hand)
             break
@@ -169,7 +165,7 @@ def main():
     playHand(player, dealer, deck)
 
     while True: # Start main game loop
-        playAgain = input('Play again? (y/n)')
+        playAgain = input('Play again? (y/n): ')
         if playAgain == 'n':
             print(f'Your bank: {player.bank}')
             print('Thanks for playing! Come again soon')
