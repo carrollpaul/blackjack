@@ -35,6 +35,9 @@ class Player:
 def printGreeting():
     print("\n*************************\n\nWelcome to Paul's Casino!\n\n*************************\n")
 
+def getBet():
+    return input('Input bet: ')
+
 def analyzeHand(hand):
     valueLowAce = 0
     valueHighAce = 0
