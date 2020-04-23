@@ -64,20 +64,29 @@ def main():
     # Steps for a given hand below:
         # Get bet from player
         # Deal player hand, deal dealer's hand
+        # Show player hand
         # Show one of dealer's cards
 
         # Check player's hand for blackjack
             # If blackjack, return bet + bet*1.5
-        # If not blackjack, ask to hit or stand
-        # If stand, break to dealer
-        # If hit, deal one card to player, check score of hand
-            # If score is over 21, player loses bet
-            # If score = 21, player stands
-        # If score is less than 21, repeat
+            # Cards are discarded
+            # Hand over
 
-        # When player stands, dealer checks hand
-        # If hand is greater than player hand, player loses bet
-        # Else if hand is less than 17, dealer hits
+        # If not blackjack, begin loop:
+            # Ask to hit or stand
+            # If stand, break loop
+            # If hit, deal one card to player, check score of hand
+                # If score is over 21:
+                    # player loses bet, 
+                    # break loop
+                # If score = 21
+                    # break loop
+            # If score is less than 21
+                # Continue loop
+
+        # When player stands, dealer loop begins
+            
+ 
 
     printGreeting()
 
