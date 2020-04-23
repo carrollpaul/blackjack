@@ -85,7 +85,21 @@ def main():
                 # Continue loop
 
         # When player stands, dealer loop begins
-            
+            # Check score of dealer hand
+            # If dealer score > 21
+                # Player wins bet
+                # Cards are discarded
+                # Break loop
+            # If dealer score > than player score
+                # Player loses bet
+                # Cards are discarded
+                # break loop
+            # If dealer score < 17
+                # Deal dealer 1 card
+                # Repeat loop
+        
+        # Hand finished
+
  
 
     printGreeting()
