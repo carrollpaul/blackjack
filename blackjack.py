@@ -55,7 +55,7 @@ def analyzeHand(hand):
             valueHighAce = valueHighAce + rank
     return valueLowAce, valueHighAce
 
-def playHand(player, dealer, deck, bank):
+def playHand(player, dealer, deck):
     bet = getBet()
 
     dealer.getHand(deck, 2)
@@ -106,7 +106,7 @@ def playHand(player, dealer, deck, bank):
             player.bank = player.bank - bet
         if dealerScore < 17:
             dealer.getHand(deck, 1)
-
+            continue
 
 def main():
     # Setup steps:
@@ -165,36 +165,16 @@ def main():
 
     player = Player('Paul')
     dealer = Player('Dealer')
-
-    bank = 100
         
+    playHand(player, dealer, deck)
+
     while True: # Start main game loop
-        bet = getBet()
-        
-        dealer.getHand(deck, 2)
-        player.getHand(deck, 2)
-
-        print(f"{player.name}'s hand: {player.hand}")
-        print(f"{dealer.name}'s hand: {dealer.hand[0]}")
-
-        playerScore = analyzeHand(player)
-        if playerScore == 21:
-            print('Blackjack!')
-            bank = bank + bet*1.5
-
-    while True:
-        score = 0
-        if score > 21:
-            break
-        hit = input('Hit or stay (y/n): ')
-        if hit == 'y':
-            player.getHand(deck, 1)
-            score = analyzeHand(hand)
+        playAgain = input('Play again? (y/n)')
+        if playAgain == 'n':
+            print(f'Your bank: {player.bank}')
+            print('Thanks for playing! Come again soon')
         else:
-            score = analyzeHand(hand)
-            break
-    
-    print(f"{player.name}'s hand: {player.hand}")
+            playHand(player, dealer, deck)
 
 if __name__ == '__main__':
     main()
