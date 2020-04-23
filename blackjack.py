@@ -79,15 +79,26 @@ def main():
     deck.shuffle()
 
     player = Player('Paul')
-    dealer = Player('dealer')
+    dealer = Player('Dealer')
 
-    dealer.getHand(deck, 2)
-    player.getHand(deck, 2)
-
-    print(f"{player.name}'s hand: {player.hand}")
-    print(f"{dealer.name}'s hand: {dealer.hand[0]}")
-    
+    bank = 100
+        
     while True:
+        bet = input('Input bet: ')
+        
+        dealer.getHand(deck, 2)
+        player.getHand(deck, 2)
+
+        print(f"{player.name}'s hand: {player.hand}")
+        print(f"{dealer.name}'s hand: {dealer.hand[0]}")
+
+        playerScore = analyzeHand(player)
+        if playerScore == 21:
+            print('Blackjack!')
+            bank = bank + bet*1.5
+
+    while True:
+        score = 0
         if score > 21:
             break
         hit = input('Hit or stay (y/n): ')
