@@ -26,6 +26,7 @@ class Player:
     def __init__(self, name):
         self.name = name
         self.hand = []
+        self.bank = 100
     def __repr__(self):
         return self.name
     def getHand(self, deck, size):
@@ -63,11 +64,17 @@ def playHand(player, dealer, deck, bank):
     print(f"{player.name}'s hand: {player.hand}")
     print(f"{dealer.name}'s hand: {dealer.hand[0]}")
 
-    playerScore = analyzeHand(player)
-        if playerScore == 21:
-            print('Blackjack!')
-            bank = bank + bet*1.5
-            return
+    # Check for blackjack
+    playerScore = analyzeHand(player.hand)
+    if playerScore == 21:
+        print('Blackjack!')
+        player.bank = player.bank + bet*1.5
+        return
+    
+    while True:
+        hit = input('Hit? (y/n')
+        if hit == 'n':
+            playerScore = analyzeHand(hand)
 
 def main():
     # Setup steps:
@@ -75,7 +82,6 @@ def main():
         # Make deck, shuffle it
         # Get player name
         # Make player and dealer
-        # Make player bank
 
     # Loop game until player says stop or bank == 0
 
