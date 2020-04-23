@@ -35,6 +35,9 @@ class Player:
 def printGreeting():
     print("\n*************************\n\nWelcome to Paul's Casino!\n\n*************************\n")
 
+def getBet():
+    return input('Input bet: ')
+
 def analyzeHand(hand):
     valueLowAce = 0
     valueHighAce = 0
@@ -51,27 +54,71 @@ def analyzeHand(hand):
             valueHighAce = valueHighAce + rank
     return valueLowAce, valueHighAce
 
+def playHand(player, dealer, deck, bank):
+    bet = getBet()
+
+    dealer.getHand(deck, 2)
+    player.getHand(deck, 2)
+
+    print(f"{player.name}'s hand: {player.hand}")
+    print(f"{dealer.name}'s hand: {dealer.hand[0]}")
+
+    playerScore = analyzeHand(player)
+        if playerScore == 21:
+            print('Blackjack!')
+            bank = bank + bet*1.5
+            return
+
 def main():
+    # Setup steps:
+        # Print greeting
+        # Make deck, shuffle it
+        # Get player name
+        # Make player and dealer
+        # Make player bank
 
-    # Make deck, shuffle it
-    # Get player name
-    # Make player and dealer
-    # Make player bank
-    # Deal player hand, deal dealer's hand
-    # Show one of dealer's cards
+    # Loop game until player says stop or bank == 0
 
-    # Check player's hand for blackjack
-        # If blackjack, return bet + bet*1.5
-    # If not blackjack, ask to hit or stand
-    # If stand, break to dealer
-    # If hit, deal one card to player, check score of hand
-        # If score is over 21, player loses bet
-        # If score = 21, player stands
-    # If score is less than 21, repeat
+    # Steps for a given hand below:
+        # Get bet from player
+        # Deal player hand, deal dealer's hand
+        # Show player hand
+        # Show one of dealer's cards
 
-    # When player stands, dealer checks hand
-    # If hand is greater than player hand, player loses bet
-    # Else if hand is less than 17, dealer hits
+        # Check player's hand for blackjack
+            # If blackjack, return bet + bet*1.5
+            # Cards are discarded
+            # Hand over
+
+        # If not blackjack, begin loop:
+            # Ask to hit or stand
+            # If stand, break loop
+            # If hit, deal one card to player, check score of hand
+                # If score is over 21:
+                    # player loses bet, 
+                    # break loop
+                # If score = 21
+                    # break loop
+            # If score is less than 21
+                # Continue loop
+
+        # When player stands, dealer loop begins
+            # Check score of dealer hand
+            # If dealer score > 21
+                # Player wins bet
+                # Cards are discarded
+                # Break loop
+            # If dealer score > than player score
+                # Player loses bet
+                # Cards are discarded
+                # break loop
+            # If dealer score < 17
+                # Deal dealer 1 card
+                # Repeat loop
+        
+        # Hand finished
+
+ 
 
     printGreeting()
 
@@ -83,8 +130,8 @@ def main():
 
     bank = 100
         
-    while True:
-        bet = input('Input bet: ')
+    while True: # Start main game loop
+        bet = getBet()
         
         dealer.getHand(deck, 2)
         player.getHand(deck, 2)
