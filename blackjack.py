@@ -66,15 +66,47 @@ def playHand(player, dealer, deck, bank):
 
     # Check for blackjack
     playerScore = analyzeHand(player.hand)
-    if playerScore == 21:
+    if (playerScore == 21):
         print('Blackjack!')
         player.bank = player.bank + bet*1.5
         return
     
+    # Loop for player
     while True:
         hit = input('Hit? (y/n')
-        if hit == 'n':
-            playerScore = analyzeHand(hand)
+        if (hit == 'n'):
+            playerScore = analyzeHand(player.hand)
+            break
+        else:
+            player.getHand(deck, 1)
+            print(f"{player.name}'s hand: {player.hand}")
+            playerScore = analyzeHand(player.hand)
+            if (playerScore > 21):
+                print('Bust!')
+                player.bank = player.bank - bet
+                return
+            if (playerScore == 21):
+                break
+            else:
+                continue
+    
+    # Loop for dealer
+    while True:
+        print(f"{dealer.name}'s hand: {dealer.hand}")
+        dealerScore = analyzeHand(dealer.hand)
+        if dealerScore > 21:
+            print('Dealer busts, you win!')
+            player.bank = player.bank + bet
+            return
+        if dealerScore == 21 and playerScore == 21:
+            print('Push!')
+            return
+        if dealerScore > playerScore:
+            print('Better luck next time!')
+            player.bank = player.bank - bet
+        if dealerScore < 17:
+            dealer.getHand(deck, 1)
+
 
 def main():
     # Setup steps:
