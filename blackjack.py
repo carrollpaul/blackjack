@@ -54,12 +54,30 @@ def analyzeHand(hand):
             valueHighAce = valueHighAce + rank
     return valueLowAce, valueHighAce
 
-def main():
+def playHand(player, dealer, deck, bank):
+    bet = getBet()
 
-    # Make deck, shuffle it
-    # Get player name
-    # Make player and dealer
-    # Make player bank
+    dealer.getHand(deck, 2)
+    player.getHand(deck, 2)
+
+    print(f"{player.name}'s hand: {player.hand}")
+    print(f"{dealer.name}'s hand: {dealer.hand[0]}")
+
+    playerScore = analyzeHand(player)
+        if playerScore == 21:
+            print('Blackjack!')
+            bank = bank + bet*1.5
+            return
+
+def main():
+    # Setup steps:
+        # Print greeting
+        # Make deck, shuffle it
+        # Get player name
+        # Make player and dealer
+        # Make player bank
+
+    # Loop game until player says stop or bank == 0
 
     # Steps for a given hand below:
         # Get bet from player
