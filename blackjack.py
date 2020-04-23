@@ -52,6 +52,12 @@ def analyzeHand(hand):
     return valueLowAce, valueHighAce
 
 def main():
+
+    # Make deck, shuffle it
+    # Ask how many players there are and their names
+    # Make that many players
+
+
     printGreeting()
 
     deck = Deck()
