@@ -44,11 +44,11 @@ def analyzeHand(hand):
     for card in hand:
         rank = card[0]
         if (rank == 'A'):
-            score = score + 11
-        if (rank == 'K' or rank == 'Q' or rank == 'J'):
-            score = score + 10
+            score += 11
+        elif (rank == 'K' or rank == 'Q' or rank == 'J'):
+            score += 10
         else:
-            score = score + rank
+            score += int(rank)
     return score
 
 def playHand(player, dealer, deck):
@@ -85,27 +85,26 @@ def playHand(player, dealer, deck):
                 break
             else:
                 continue
-    
-    print(f"{dealer.name}'s hand: {dealer.hand}")
-    dealerScore = analyzeHand(dealer.hand)
-    if dealerScore > playerScore:
-        print('Better luck next time!')
-        player.bank = player.bank - bet
-        return
-    if dealerScore == 21 and playerScore == 21:
-        print('Push!')
-        return
-    # Loop for dealer
-    while True:
+
+    while True:       
+        print(f"{dealer.name}'s hand: {dealer.hand}")
         dealerScore = analyzeHand(dealer.hand)
         if dealerScore > 21:
             print('Dealer busts, you win!')
             player.bank = player.bank + bet
             return
-        if dealerScore >= 17:
-            print('You win!')
-            player.bank = player.bank + bet
+        if dealerScore > playerScore:
+            print('Better luck next time!')
+            player.bank = player.bank - bet
             return
+        if dealerScore >= 17:
+            if dealerScore == playerScore:
+                print('Push!')
+                return
+            else:
+                print('Better luck next time!')
+                player.bank = player.bank - bet
+                return
         else:
             dealer.getHand(deck, 1)
 
