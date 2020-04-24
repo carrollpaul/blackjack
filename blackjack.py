@@ -44,11 +44,11 @@ def analyzeHand(hand):
     for card in hand:
         rank = card[0]
         if (rank == 'A'):
-            score = score + 11
-        if (rank == 'K' or rank == 'Q' or rank == 'J'):
-            score = score + 10
+            score += 11
+        elif (rank == 'K' or rank == 'Q' or rank == 'J'):
+            score += 10
         else:
-            score = score + rank
+            score += int(rank)
     return score
 
 def playHand(player, dealer, deck):
