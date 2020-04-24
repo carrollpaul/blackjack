@@ -37,7 +37,7 @@ def printGreeting():
     print("\n*************************\n\nWelcome to Paul's Casino!\n\n*************************\n")
 
 def getBet():
-    return input('Input bet: ')
+    return int(input('Input bet: '))
 
 def analyzeHand(hand):
     score = 0
@@ -45,7 +45,7 @@ def analyzeHand(hand):
         rank = card[0]
         if (rank == 'A'):
             score = score + 11
-        if rank == 'K' or rank == 'Q' or rank == 'J':
+        if (rank == 'K' or rank == 'Q' or rank == 'J'):
             score = score + 10
         else:
             score = score + rank
@@ -86,23 +86,28 @@ def playHand(player, dealer, deck):
             else:
                 continue
     
+    print(f"{dealer.name}'s hand: {dealer.hand}")
+    dealerScore = analyzeHand(dealer.hand)
+    if dealerScore > playerScore:
+        print('Better luck next time!')
+        player.bank = player.bank - bet
+        return
+    if dealerScore == 21 and playerScore == 21:
+        print('Push!')
+        return
     # Loop for dealer
     while True:
-        print(f"{dealer.name}'s hand: {dealer.hand}")
         dealerScore = analyzeHand(dealer.hand)
         if dealerScore > 21:
             print('Dealer busts, you win!')
             player.bank = player.bank + bet
             return
-        if dealerScore == 21 and playerScore == 21:
-            print('Push!')
+        if dealerScore >= 17:
+            print('You win!')
+            player.bank = player.bank + bet
             return
-        if dealerScore > playerScore:
-            print('Better luck next time!')
-            player.bank = player.bank - bet
-        if dealerScore < 17:
+        else:
             dealer.getHand(deck, 1)
-            continue
 
 def main():
     # Setup steps:
@@ -165,11 +170,13 @@ def main():
     playHand(player, dealer, deck)
 
     while True: # Start main game loop
+        print(f'Your bank: {player.bank}')
         playAgain = input('Play again? (y/n): ')
         if playAgain == 'n':
-            print(f'Your bank: {player.bank}')
             print('Thanks for playing! Come again soon')
         else:
+            player.hand.clear()
+            dealer.hand.clear()
             playHand(player, dealer, deck)
 
 if __name__ == '__main__':
