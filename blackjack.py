@@ -109,55 +109,6 @@ def playHand(player, dealer, deck):
             dealer.getHand(deck, 1)
 
 def main():
-    # Setup steps:
-        # Print greeting
-        # Make deck, shuffle it
-        # Get player name
-        # Make player and dealer
-
-    # Loop game until player says stop or bank == 0
-
-    # Steps for a given hand below:
-        # Get bet from player
-        # Deal player hand, deal dealer's hand
-        # Show player hand
-        # Show one of dealer's cards
-
-        # Check player's hand for blackjack
-            # If blackjack, return bet + bet*1.5
-            # Cards are discarded
-            # Hand over
-
-        # If not blackjack, begin loop:
-            # Ask to hit or stand
-            # If stand, break loop
-            # If hit, deal one card to player, check score of hand
-                # If score is over 21:
-                    # player loses bet, 
-                    # break loop
-                # If score = 21
-                    # break loop
-            # If score is less than 21
-                # Continue loop
-
-        # When player stands, dealer loop begins
-            # Check score of dealer hand
-            # If dealer score > 21
-                # Player wins bet
-                # Cards are discarded
-                # Break loop
-            # If dealer score > than player score
-                # Player loses bet
-                # Cards are discarded
-                # break loop
-            # If dealer score < 17
-                # Deal dealer 1 card
-                # Repeat loop
-        
-        # Hand finished
-
- 
-
     printGreeting()
 
     deck = Deck()
@@ -173,6 +124,7 @@ def main():
         playAgain = input('Play again? (y/n): ')
         if playAgain == 'n':
             print('Thanks for playing! Come again soon')
+            break
         else:
             player.hand.clear()
             dealer.hand.clear()
