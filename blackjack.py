@@ -26,6 +26,7 @@ class Player:
     def __init__(self, name):
         self.name = name
         self.hand = []
+        self.bank = 100
     def __repr__(self):
         return self.name
     def getHand(self, deck, size):
@@ -36,25 +37,21 @@ def printGreeting():
     print("\n*************************\n\nWelcome to Paul's Casino!\n\n*************************\n")
 
 def getBet():
-    return input('Input bet: ')
+    return int(input('Input bet: '))
 
 def analyzeHand(hand):
-    valueLowAce = 0
-    valueHighAce = 0
+    score = 0
     for card in hand:
         rank = card[0]
         if (rank == 'A'):
-            valueLowAce = valueLowAce + 1
-            valueHighAce = valueHighAce + 21
-        if rank == 'K' or rank == 'Q' or rank == 'J':
-            valueLowAce = valueLowAce + 10
-            valueHighAce = valueHighAce +10
+            score = score + 11
+        if (rank == 'K' or rank == 'Q' or rank == 'J'):
+            score = score + 10
         else:
-            valueLowAce = valueLowAce + rank
-            valueHighAce = valueHighAce + rank
-    return valueLowAce, valueHighAce
+            score = score + rank
+    return score
 
-def playHand(player, dealer, deck, bank):
+def playHand(player, dealer, deck):
     bet = getBet()
 
     dealer.getHand(deck, 2)
@@ -63,11 +60,54 @@ def playHand(player, dealer, deck, bank):
     print(f"{player.name}'s hand: {player.hand}")
     print(f"{dealer.name}'s hand: {dealer.hand[0]}")
 
-    playerScore = analyzeHand(player)
-        if playerScore == 21:
-            print('Blackjack!')
-            bank = bank + bet*1.5
+    # Check for blackjack
+    playerScore = analyzeHand(player.hand)
+    if (playerScore == 21):
+        print('Blackjack!')
+        player.bank = player.bank + bet*1.5
+        return
+    
+    # Loop for player
+    while True:
+        hit = input('Hit? (y/n): ')
+        if (hit == 'n'):
+            playerScore = analyzeHand(player.hand)
+            break
+        else:
+            player.getHand(deck, 1)
+            print(f"{player.name}'s hand: {player.hand}")
+            playerScore = analyzeHand(player.hand)
+            if (playerScore > 21):
+                print('Bust!')
+                player.bank = player.bank - bet
+                return
+            if (playerScore == 21):
+                break
+            else:
+                continue
+    
+    print(f"{dealer.name}'s hand: {dealer.hand}")
+    dealerScore = analyzeHand(dealer.hand)
+    if dealerScore > playerScore:
+        print('Better luck next time!')
+        player.bank = player.bank - bet
+        return
+    if dealerScore == 21 and playerScore == 21:
+        print('Push!')
+        return
+    # Loop for dealer
+    while True:
+        dealerScore = analyzeHand(dealer.hand)
+        if dealerScore > 21:
+            print('Dealer busts, you win!')
+            player.bank = player.bank + bet
             return
+        if dealerScore >= 17:
+            print('You win!')
+            player.bank = player.bank + bet
+            return
+        else:
+            dealer.getHand(deck, 1)
 
 def main():
     # Setup steps:
@@ -75,7 +115,6 @@ def main():
         # Make deck, shuffle it
         # Get player name
         # Make player and dealer
-        # Make player bank
 
     # Loop game until player says stop or bank == 0
 
@@ -127,36 +166,18 @@ def main():
 
     player = Player('Paul')
     dealer = Player('Dealer')
-
-    bank = 100
         
+    playHand(player, dealer, deck)
+
     while True: # Start main game loop
-        bet = getBet()
-        
-        dealer.getHand(deck, 2)
-        player.getHand(deck, 2)
-
-        print(f"{player.name}'s hand: {player.hand}")
-        print(f"{dealer.name}'s hand: {dealer.hand[0]}")
-
-        playerScore = analyzeHand(player)
-        if playerScore == 21:
-            print('Blackjack!')
-            bank = bank + bet*1.5
-
-    while True:
-        score = 0
-        if score > 21:
-            break
-        hit = input('Hit or stay (y/n): ')
-        if hit == 'y':
-            player.getHand(deck, 1)
-            score = analyzeHand(hand)
+        print(f'Your bank: {player.bank}')
+        playAgain = input('Play again? (y/n): ')
+        if playAgain == 'n':
+            print('Thanks for playing! Come again soon')
         else:
-            score = analyzeHand(hand)
-            break
-    
-    print(f"{player.name}'s hand: {player.hand}")
+            player.hand.clear()
+            dealer.hand.clear()
+            playHand(player, dealer, deck)
 
 if __name__ == '__main__':
     main()
