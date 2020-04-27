@@ -57,7 +57,7 @@ def analyzeHand(hand):
         score += 10
         return score 
     else:
-        return score 
+        return score
 
 def playHand(player, dealer, deck):
     bet = getBet()
