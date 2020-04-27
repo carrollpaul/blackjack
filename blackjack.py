@@ -128,6 +128,8 @@ def main():
     playHand(player, dealer, deck)
 
     while True: # Start main game loop
+        if player.bank < 1:
+            break
         print(f'Your bank: {player.bank}')
         playAgain = input('Play again? (y/n): ')
         if playAgain == 'n':
