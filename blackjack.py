@@ -53,10 +53,11 @@ def analyzeHand(hand):
             score += int(rank)
     if not ace:
         return score
+    elif score < 11:
+        score += 10
+        return score 
     else:
-        if score < 11:
-            score += 10
-            return score 
+        return score 
 
 def playHand(player, dealer, deck):
     bet = getBet()
