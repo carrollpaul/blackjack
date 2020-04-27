@@ -41,15 +41,23 @@ def getBet():
 
 def analyzeHand(hand):
     score = 0
+    ace = False
     for card in hand:
         rank = card[0]
         if (rank == 'A'):
-            score += 11
+            score += 1
+            ace = True
         elif (rank == 'K' or rank == 'Q' or rank == 'J'):
             score += 10
         else:
             score += int(rank)
-    return score
+    if not ace:
+        return score
+    elif score < 11:
+        score += 10
+        return score 
+    else:
+        return score
 
 def playHand(player, dealer, deck):
     bet = getBet()
