@@ -96,8 +96,16 @@ def playHand(player, dealer, deck): # Function for a single hand of blackjack
     
     # Loop for player
     while True:
-        hit = input('Hit? (y/n): ') # See if player wants to hit or stand
-        if (hit == 'n'):
+        while True:
+            hit = input('Hit? (y/n): ') # See if player wants to hit or stand
+            # Make sure input is y or n
+            if hit.upper() == 'Y' or hit.upper() == 'N': 
+                break
+            else:
+                print("Please enter 'y' or 'n'.")
+                continue
+
+        if (hit.upper() == 'N'):
             playerScore = analyzeHand(player.hand)
             break
         else:
@@ -116,16 +124,18 @@ def playHand(player, dealer, deck): # Function for a single hand of blackjack
     # Loop for dealer           
     while True:       
         print(f"{dealer.name}'s hand: {dealer.hand}")
+
         dealerScore = analyzeHand(dealer.hand)
+
         if dealerScore > 21:
             print('Dealer busts, you win!')
             player.bank = player.bank + bet
             return
-        if dealerScore > playerScore:
+        elif dealerScore > playerScore:
             print('Better luck next time!')
             player.bank = player.bank - bet
             return
-        if dealerScore >= 17: # Dealer will hit if below player's hand and below 17
+        elif dealerScore >= 17: # Dealer will hit if below player's hand and below 17
             if dealerScore == playerScore:
                 print('Push!')
                 return
@@ -155,8 +165,17 @@ def main():
         if player.bank < 1: # Make sure player has money
             print("You're broke! Come back with more money.")
             break
+
         print(f'Your bank: {player.bank}')
-        playAgain = input('Play again? (y/n): ') # Check if player wants to play another hand
+
+        while True:
+            playAgain = input('Play again? (y/n): ') # Check if player wants to play another hand
+            if playAgain.upper() == 'Y' or playAgain.upper() == 'N': # Make sure input is y or n
+                break
+            else:
+                print("Please enter 'y' or 'n'.")
+                continue
+
         if playAgain == 'n':
             print('Thanks for playing! Come again soon')
             break
