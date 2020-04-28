@@ -129,6 +129,7 @@ def main():
 
     while True: # Start main game loop
         if player.bank < 1:
+            print("You're broke! Come back with more money.")
             break
         print(f'Your bank: {player.bank}')
         playAgain = input('Play again? (y/n): ')
