@@ -36,8 +36,14 @@ class Player:
 def printGreeting():
     print("\n*************************\n\nWelcome to Paul's Casino!\n\n*************************\n")
 
-def getBet():
-    return int(input('Input bet: '))
+def getBet(player):
+    while True:
+        bet = int(input('Input bet: '))
+        if (player.bank - bet > 0):
+            return bet
+        else:
+            print(f"You can't bet what you don't have! Your bankroll is {player.bank}.")
+            continue
 
 def analyzeHand(hand):
     score = 0
@@ -60,7 +66,7 @@ def analyzeHand(hand):
         return score
 
 def playHand(player, dealer, deck):
-    bet = getBet()
+    bet = getBet(player)
 
     dealer.getHand(deck, 2)
     player.getHand(deck, 2)
