@@ -1,34 +1,43 @@
 import random
 
 class Card:
+
     def __init__(self, rank, suit):
         self.rank = rank
         self.suit = suit
+        
     def __repr__(self):
         return '({rank}, {suit})'.format(rank = self.rank, suit = self.suit)
 
 class Deck:
+
     def __init__(self):
         self.cards = []
         self.build()
+
     def build(self):
         for rank in [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A']:
-            for suit in ['H', 'D', 'S', 'C']:
+            for suit in ['♤', '♡', '◇', '♧']:
                 self.cards.append((rank, suit))
+
     def shuffle(self):
         for i in range(len(self.cards) - 1, 0, -1):
             r = random.randint(0, i)
             self.cards[i], self.cards[r] = self.cards[r], self.cards[i]
+
     def dealCard(self):
         return self.cards.pop()
 
 class Player:
+
     def __init__(self, name):
         self.name = name
         self.hand = []
         self.bank = 100
+
     def __repr__(self):
         return self.name
+
     def getHand(self, deck, size):
         for i in range(size):
             self.hand.append(deck.dealCard())
@@ -42,7 +51,7 @@ def getBet(player):
         if (player.bank - bet > 0):
             return bet
         else:
-            print(f"You can't bet what you don't have! Your bankroll is {player.bank}.")
+            print(f"You can't bet what you don't have! Your bankroll is ${player.bank}.")
             continue
 
 def analyzeHand(hand):
