@@ -1,4 +1,5 @@
 import random
+import sys
 import pygame as pg
 
 pg.init()
@@ -164,13 +165,17 @@ def playHand(player, dealer, deck): # Function for a single hand of blackjack
             dealer.getHand(deck, 1)
 
 def main():
-    printGreeting()
+    # Initialize pygame screen
+    screen = pg.display.set_mode((
+        settings.screen_width, settings.screen_height))
+    # Set game caption
+    pg.display.set_caption(printGreeting())
+    # Initialize clock timer
+    clock = pg.time.Clock()
 
-    deck = Deck() # Make and shuffle deck
-    deck.shuffle()
+    deck = Deck(shuffle_cards = True) # Make and shuffle deck
 
     playerName = input("What's your name? ") # Get name of player
-
     player = Player(playerName) # Create player and dealer objects
     dealer = Player('Dealer')
         
