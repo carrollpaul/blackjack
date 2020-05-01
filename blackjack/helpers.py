@@ -1,3 +1,5 @@
+import random
+
 class Settings:
 
     def __init__(self):
@@ -26,13 +28,13 @@ class Deck:
             for suit in ['S', 'H', 'D', 'C']: 
                 self.cards.append(Card(rank, suit))
         if self.shuffle_cards:
-            shuffle(self.cards)
-
+            random.shuffle(self.cards)
+    '''
     def shuffle(self): # Shuffle deck
         for i in range(len(self.cards) - 1, 0, -1):
             r = random.randint(0, i)
             self.cards[i], self.cards[r] = self.cards[r], self.cards[i]
-
+    '''
     def dealCard(self): # Deal one card from deck
         return self.cards.pop()
 

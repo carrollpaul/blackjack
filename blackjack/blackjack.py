@@ -120,7 +120,7 @@ def main():
         settings.screen_width, settings.screen_height))
 
     # Set game caption
-    pg.display.set_caption(printGreeting())
+    #pg.display.set_caption(printGreeting())
 
     # Initialize clock timer
     clock = pg.time.Clock()
@@ -130,6 +130,8 @@ def main():
             if event.type == pg.QUIT:
                 pg.exit()
                 sys.exit()
+        
+        pg.display.flip()
         
         deck = Deck(shuffle_cards = True) # Make and shuffle deck
 
