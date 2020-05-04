@@ -118,6 +118,11 @@ def main():
     settings = Settings()
     screen = pg.display.set_mode((
         settings.screen_width, settings.screen_height))
+    table_image = pg.image.load("/images/blackjack-table.png")
+    table_rect = table_image.get_rect()
+    screen_rect = screen.get_rect()
+
+    screen.blit(table_image, table_rect)
 
     # Set game caption
     #pg.display.set_caption(printGreeting())
