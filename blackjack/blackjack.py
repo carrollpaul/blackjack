@@ -1,24 +1,37 @@
 import random
+import pygame as pg
+
+pg.init()
+
+class Settings:
+
+    def __init__(self):
+        self.screen_width = 1200
+        self.screen_height = 800
 
 class Card:
 
     def __init__(self, rank, suit):
         self.rank = rank
         self.suit = suit
+        #self.img = card_images[f'{rank}{suit}']
 
     def __repr__(self):
-        return '({rank}, {suit})'.format(rank = self.rank, suit = self.suit)
+        return f'({self.rank}, {self.suit})'
 
 class Deck:
 
-    def __init__(self):
+    def __init__(self, shuffle_cards = False):
         self.cards = []
+        self.shuffle_cards = shuffle_cards
         self.build()
 
     def build(self): # Make a 52 card deck
-        for rank in [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A']:
-            for suit in ['♤', '♡', '◇', '♧']:
-                self.cards.append((rank, suit))
+        for rank in [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A']: 
+            for suit in ['S', 'H', 'D', 'C']: 
+                self.cards.append(Card(rank, suit))
+        if self.shuffle_cards:
+            shuffle(self.cards)
 
     def shuffle(self): # Shuffle deck
         for i in range(len(self.cards) - 1, 0, -1):
@@ -62,7 +75,7 @@ def analyzeHand(hand): # Get value of hand
     score = 0
     ace = False
     for card in hand:
-        rank = card[0]
+        rank = card.rank
         if (rank == 'A'):
             score += 1
             ace = True
@@ -130,19 +143,23 @@ def playHand(player, dealer, deck): # Function for a single hand of blackjack
 
         if dealerScore > 21:
             print('Dealer busts, you win!')
-            player.bank = player.bank + bet
+            player.bank += bet
             return
         elif dealerScore > playerScore:
             print('Better luck next time!')
-            player.bank = player.bank - bet
+            player.bank -= bet
             return
         elif dealerScore >= 17: # Dealer will hit if below player's hand and below 17
             if dealerScore == playerScore:
                 print('Push!')
                 return
+            if dealerScore < playerScore:
+                print('You win!')
+                player.bank += bet
+                return
             else:
                 print('Better luck next time!')
-                player.bank = player.bank - bet
+                player.bank -= bet
                 return
         else:
             dealer.getHand(deck, 1)
