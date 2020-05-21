@@ -79,6 +79,7 @@ def analyzeHand(hand): # Get value of hand
         return score
 
 def playHand(player, dealer, deck): # Function for a single hand of blackjack
+    print(f'Your bank: {player.bank}')
     bet = getBet(player)
 
     dealer.getHand(deck, 2) # Deal 2 cards to player and dealer
