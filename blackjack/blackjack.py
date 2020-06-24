@@ -1,35 +1,35 @@
 import random
 import sys
-import pygame as pg
+import pygame
 from helpers import Deck, Card, Player, Settings
 from helpers import printGreeting, getBet, analyzeHand, playHand
 
-pg.init()
+pygame.init()
 
 def main():
     # Initialize pygame screen
     settings = Settings()
-    screen = pg.display.set_mode((
+    screen = pygame.display.set_mode((
         settings.screen_width, settings.screen_height))
-    table_image = pg.image.load("blackjack/images/blackjack-table.png")
+    table_image = pygame.image.load("blackjack/images/blackjack-table.png")
     table_rect = table_image.get_rect()
     screen_rect = screen.get_rect()
 
     screen.blit(table_image, table_rect)
 
     # Set game caption
-    #pg.display.set_caption(printGreeting())
+    #pygame.display.set_caption(printGreeting())
 
     # Initialize clock timer
-    clock = pg.time.Clock()
+    clock = pygame.time.Clock()
 
     while True:
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                pg.exit()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.exit()
                 sys.exit()
         
-        pg.display.flip()
+        pygame.display.flip()
         
         deck = Deck(shuffle_cards = True) # Make and shuffle deck
 
