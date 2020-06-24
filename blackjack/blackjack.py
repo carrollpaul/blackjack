@@ -9,13 +9,13 @@ pygame.init()
 def main():
     # Initialize pygame screen
     settings = Settings()
-    screen = pygame.display.set_mode((
-        settings.screen_width, settings.screen_height))
-    table_image = pygame.image.load("blackjack/images/blackjack-table.png")
-    table_rect = table_image.get_rect()
+    screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
+    screen.fill((50, 86, 86)) # Green felt color
+    #table_image = pygame.image.load("blackjack/images/blackjack-table.png")
+    #table_rect = table_image.get_rect()
     screen_rect = screen.get_rect()
 
-    screen.blit(table_image, table_rect)
+    #screen.blit(table_image, table_rect)
 
     # Set game caption
     #pygame.display.set_caption(printGreeting())
