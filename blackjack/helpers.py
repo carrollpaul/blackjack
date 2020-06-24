@@ -1,4 +1,5 @@
 import random
+import pygame
 
 class Settings:
 
@@ -11,7 +12,7 @@ class Card:
     def __init__(self, rank, suit):
         self.rank = rank
         self.suit = suit
-        self.img = str(rank)+suit+'.png'
+        self.img = pygame.image.load('C:/SourceCode/python/blackjack/images/'+str(rank)+suit+'.png')
 
     def __repr__(self):
         return f'({self.rank}, {self.suit})'

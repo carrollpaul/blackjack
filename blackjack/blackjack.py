@@ -22,11 +22,16 @@ def main():
 
     # Initialize clock timer
     clock = pygame.time.Clock()
+    playAgain = 'y'
 
     while True:
+        if playAgain == 'n':
+            pygame.quit()
+            sys.exit()
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.exit()
+                pygame.quit()
                 sys.exit()
         
         pygame.display.flip()
