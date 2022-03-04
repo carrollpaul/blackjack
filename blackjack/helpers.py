@@ -1,35 +1,37 @@
 import random
 import typing
+from dataclasses import dataclass
 
-
+@dataclass
 class Card:
-    def __init__(self, rank: typing.Any, suit: str) -> None:
-        self.rank = rank
-        self.suit = suit
+    rank: typing.Any
+    suit: str
 
     def __repr__(self) -> str:
         return f"({self.rank}, {self.suit})"
 
 
 class Deck:
-    def __init__(self, shuffle_cards=False):
+    def __init__(self, shuffle_cards: bool = False):
         self.cards = []
-        self.shuffle_cards = shuffle_cards
-        self.build()
+        self.build(shuffle_cards)
 
-    def build(self) -> None:  # Make a 52 card deck
+    def build(self, shuffle_cards: bool = False) -> None:  
+        '''Make a 52 card deck.'''     
         for rank in [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]:
             for suit in ["S", "H", "D", "C"]:
                 self.cards.append(Card(rank, suit))
-        if self.shuffle_cards:
+        if shuffle_cards:
             self.shuffle(self.cards)
 
-    def shuffle(self) -> None:  # Shuffle deck
+    def shuffle(self) -> None:
+        '''Shuffle deck.'''
         for i in range(len(self.cards) - 1, 0, -1):
             r = random.randint(0, i)
             self.cards[i], self.cards[r] = self.cards[r], self.cards[i]
 
-    def dealCard(self) -> Card:  # Deal one card from deck
+    def deal_card(self) -> Card:  
+        '''Deal one card from deck'''
         return self.cards.pop()
 
 
@@ -42,7 +44,7 @@ class Player:
     def __repr__(self) -> str:
         return self.name
 
-    def getHand(self, deck: Deck, size: int) -> None:  # Deal hand equal to given size
+    def get_hand(self, deck: Deck, size: int) -> None:  # Deal hand equal to given size
         for i in range(size):
             self.hand.append(deck.dealCard())
 
