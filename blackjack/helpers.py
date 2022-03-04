@@ -2,6 +2,7 @@ import random
 import typing
 from dataclasses import dataclass
 
+
 @dataclass
 class Card:
     rank: typing.Any
@@ -16,8 +17,8 @@ class Deck:
         self.cards = []
         self.build(shuffle_cards)
 
-    def build(self, shuffle_cards: bool = False) -> None:  
-        '''Make a 52 card deck.'''     
+    def build(self, shuffle_cards: bool = False) -> None:
+        """Make a 52 card deck."""
         for rank in [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]:
             for suit in ["S", "H", "D", "C"]:
                 self.cards.append(Card(rank, suit))
@@ -25,13 +26,13 @@ class Deck:
             self.shuffle(self.cards)
 
     def shuffle(self) -> None:
-        '''Shuffle deck.'''
+        """Shuffle deck."""
         for i in range(len(self.cards) - 1, 0, -1):
             r = random.randint(0, i)
             self.cards[i], self.cards[r] = self.cards[r], self.cards[i]
 
-    def deal_card(self) -> Card:  
-        '''Deal one card from deck'''
+    def deal_card(self) -> Card:
+        """Deal one card from deck"""
         return self.cards.pop()
 
 
@@ -44,16 +45,13 @@ class Player:
     def __repr__(self) -> str:
         return self.name
 
-    def get_hand(self, deck: Deck, size: int) -> None:  # Deal hand equal to given size
-        for i in range(size):
-            self.hand.append(deck.dealCard())
+    def get_hand(self, deck: Deck, size: int) -> None:
+        """Deal hand equal to given size."""
+        for _ in range(size):
+            self.hand.append(deck.deal_card())
 
 
-def printGreeting() -> None:
-    print("\n*************************\n\nWelcome to Paul's Casino!\n\n*************************\n")
-
-
-def getBet(player: Player) -> int:  # Get bet from player
+def get_bet(player: Player) -> int:  # Get bet from player
     while True:
         try:  # Make sure bet is a number
             bet = int(input("Input bet: "))
@@ -67,7 +65,8 @@ def getBet(player: Player) -> int:  # Get bet from player
             continue
 
 
-def analyzeHand(hand: list[Card]) -> int:  # Get value of hand
+def analyze_hand(hand: list[Card]) -> int:
+    """Determine highest possible value of hand."""
     score = 0
     ace = False
     for card in hand:
@@ -75,36 +74,41 @@ def analyzeHand(hand: list[Card]) -> int:  # Get value of hand
         if rank == "A":
             score += 1
             ace = True
-        elif rank == "K" or rank == "Q" or rank == "J":
+        elif rank in ["K", "Q", "J"]:
             score += 10
         else:
             score += int(rank)
+
     if not ace:
         return score
-    elif (
-        score < 11
-    ):  # If a hand containing one or more aces valued at 1 is less than 11, change value of one ace to 11 (add 10)
+
+    # If a hand containing one or more aces valued at 1 is less than 11,
+    # change value of one ace to 11 (add 10)
+    elif score < 11:
         score += 10
         return score
+
     else:
         return score
 
 
-def playHand(
-    player: Player, dealer: Player, deck: Deck
-) -> None:  # Function for a single hand of blackjack
+def play_hand(player: Player, dealer: Player, deck: Deck) -> None:
+    """Play a single hand of blackjack."""
+
     print(f"Your bank: {player.bank}")
-    bet = getBet(player)
+    bet = get_bet(player)
 
-    dealer.getHand(deck, 2)  # Deal 2 cards to player and dealer
-    player.getHand(deck, 2)
+    # Deal 2 cards to player and dealer
+    dealer.get_hand(deck, 2)
+    player.get_hand(deck, 2)
 
-    print(f"{player.name}'s hand: {player.hand}")  # Print player's hand and 1 card of dealer's hand
+    # Print player's hand and 1 card of dealer's hand
+    print(f"{player.name}'s hand: {player.hand}")
     print(f"{dealer.name}'s hand: {dealer.hand[0]}")
 
     # Check for blackjack
-    playerScore = analyzeHand(player.hand)
-    if playerScore == 21:
+    player_score = analyze_hand(player.hand)
+    if player_score == 21:
         print("Blackjack!")
         player.bank = player.bank + bet * 1.5
         return
@@ -112,55 +116,54 @@ def playHand(
     # Loop for player
     while True:
         while True:
-            hit = input("Hit? (y/n): ")  # See if player wants to hit or stand
-            # Make sure input is y or n
-            if hit.upper() == "Y" or hit.upper() == "N":
+            hit = input("Hit? (y/n): ").lower()
+            if hit in ["y", "n"]:
                 break
-            else:
-                print("Please enter 'y' or 'n'.")
-                continue
 
-        if hit.upper() == "N":
-            playerScore = analyzeHand(player.hand)
+            print("Please enter 'y' or 'n'.")
+
+        if hit == "n":
+            player_score = analyze_hand(player.hand)
             break
-        else:
-            player.getHand(deck, 1)  # If hit, deal one card and print new hand, then analyze hand
-            print(f"{player.name}'s hand: {player.hand}")
-            playerScore = analyzeHand(player.hand)
-            if playerScore > 21:
-                print("Bust!")
-                player.bank = player.bank - bet
-                return
-            if playerScore == 21:
-                break
-            else:
-                continue
+
+        # If hit, deal one card and print new hand, then analyze hand
+        player.get_hand(deck, 1)
+        print(f"{player.name}'s hand: {player.hand}")
+        player_score = analyze_hand(player.hand)
+        if player_score > 21:
+            print("Bust!")
+            player.bank = player.bank - bet
+            return
+        if player_score == 21:
+            break
 
     # Loop for dealer
     while True:
         print(f"{dealer.name}'s hand: {dealer.hand}")
 
-        dealerScore = analyzeHand(dealer.hand)
+        dealer_score = analyze_hand(dealer.hand)
 
-        if dealerScore > 21:
+        if dealer_score > 21:
             print("Dealer busts, you win!")
             player.bank += bet
             return
-        elif dealerScore > playerScore:
+        elif dealer_score > player_score:
             print("Better luck next time!")
             player.bank -= bet
             return
-        elif dealerScore >= 17:  # Dealer will hit if below player's hand and below 17
-            if dealerScore == playerScore:
+
+        # Dealer will hit if below player's score and below 17
+        elif dealer_score >= 17:
+            if dealer_score == player_score:
                 print("Push!")
                 return
-            if dealerScore < playerScore:
+            if dealer_score < player_score:
                 print("You win!")
                 player.bank += bet
                 return
-            else:
-                print("Better luck next time!")
-                player.bank -= bet
-                return
-        else:
-            dealer.getHand(deck, 1)
+
+            print("Better luck next time!")
+            player.bank -= bet
+            return
+
+        dealer.get_hand(deck, 1)
