@@ -13,7 +13,7 @@ class Card:
 
 
 class Deck:
-    def __init__(self, shuffle_cards: bool = False):
+    def __init__(self, shuffle_cards: bool = False) -> None:
         self.cards = []
         self.build(shuffle_cards)
 
