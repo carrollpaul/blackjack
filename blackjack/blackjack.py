@@ -1,9 +1,11 @@
-from helpers import Deck, Player
-from helpers import play_hand
+from blackjack.helpers import Deck, Player
+from blackjack.helpers import play_hand
 
 
-def main() -> None:
-    print("\n*************************\n\nWelcome to Paul's Casino!\n\n*************************\n")
+def play() -> None:
+    print(
+        "\n*************************\n\nWelcome to Paul's Casino!\n\n*************************\n"
+    )
 
     deck = Deck()  # Make and shuffle deck
     deck.shuffle()
@@ -25,21 +27,24 @@ def main() -> None:
         print(f"Your bank: {player.bank}")
 
         while True:
-            playAgain = input("Play again? (y/n): ")  # Check if player wants to play another hand
-            if playAgain.upper() == "Y" or playAgain.upper() == "N":  # Make sure input is y or n
+            play_again = input(
+                "Play again? (y/n): "
+            )  # Check if player wants to play another hand
+            if (
+                play_again.upper() == "Y" or play_again.upper() == "N"
+            ):  # Make sure input is y or n
                 break
             else:
                 print("Please enter 'y' or 'n'.")
-                continue
 
-        if playAgain == "n":
+        if play_again.lower() == "n":
             print("Thanks for playing! Come again soon")
             break
         else:
-            player.hand.clear()  # "Discard" player and dealer hands
+            player.hand.clear()
             dealer.hand.clear()
             play_hand(player, dealer, deck)
 
 
 if __name__ == "__main__":
-    main()
+    play()
